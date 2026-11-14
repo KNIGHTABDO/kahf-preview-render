@@ -17,7 +17,7 @@ const HAS_MUSIC = true;
 
 type FX = 'embers' | 'fire' | 'fog' | 'dust' | 'rays' | 'lamp' | 'flash';
 type Shot = {
-  t0: number; t1: number; src: string; video?: boolean;
+  t0: number; t1: number; src: string; video?: boolean; rate?: number;
   kb?: {s: [number, number]; x: [number, number]; y: [number, number]};
   fx?: FX[]; grade?: string;
   par?: {x: [number, number]; y: [number, number]}; // depth-parallax travel in px
@@ -25,44 +25,46 @@ type Shot = {
 
 // Timeline (seconds). Narration phrase times come from silence detection, +1 s offset.
 const SHOTS: Shot[] = [
-  {t0: 0.0, t1: 5.14, src: 'k1.png', kb: {s: [1.18, 1.05], x: [-3, 0], y: [3, 0]}, par: {x: [-70, 70], y: [10, -10]}, fx: ['embers', 'fog']},
-  {t0: 5.14, t1: 8.79, src: 'k2.png', kb: {s: [1.08, 1.18], x: [2, -2], y: [0, 2]}, par: {x: [70, -70], y: [0, 0]}, fx: ['fire', 'embers']},
-  {t0: 8.79, t1: 11.31, src: 'king.mp4', video: true, fx: ['flash', 'embers'], grade: 'contrast(1.05) saturate(1.08)'},
-  {t0: 11.31, t1: 14.54, src: 'k3.png', kb: {s: [1.35, 1.6], x: [-8, -10], y: [16, 22]}, par: {x: [-40, 40], y: [20, -20]}, fx: ['fire', 'embers'], grade: 'saturate(1.15) contrast(1.08)'},
-  {t0: 14.54, t1: 19.97, src: 'k4.png', kb: {s: [1.08, 1.2], x: [0, 3], y: [0, -3]}, par: {x: [-80, 80], y: [0, 0]}, fx: ['lamp', 'dust']},
-  {t0: 19.97, t1: 22.14, src: 'eyes.mp4', video: true, fx: ['lamp']},
-  {t0: 22.14, t1: 25.28, src: 'k1.png', kb: {s: [1.7, 1.2], x: [28, 6], y: [30, -4]}, par: {x: [0, 0], y: [80, -60]}, fx: ['fog', 'dust']},
-  {t0: 25.28, t1: 27.5, src: 'alley.mp4', video: true, fx: ['fog', 'dust'], grade: 'contrast(1.06)'},
-  {t0: 27.5, t1: 29.58, src: 'k6.png', kb: {s: [1.08, 1.22], x: [0, -3], y: [0, 2]}, par: {x: [60, -60], y: [0, 0]}, fx: ['fog', 'dust']},
-  {t0: 29.58, t1: 34.01, src: 'k7.png', kb: {s: [1.25, 1.08], x: [-8, 0], y: [-6, 0]}, par: {x: [-90, 90], y: [20, -20]}, fx: ['fog', 'dust']},
-  {t0: 34.01, t1: 39.94, src: 'k8.png', kb: {s: [1.08, 1.22], x: [0, -4], y: [0, 2]}, par: {x: [70, -70], y: [0, 0]}, fx: ['rays', 'dust']},
+  {t0: 0.0, t1: 6.57, src: 'k1.png', kb: {s: [1.18, 1.05], x: [-3, 0], y: [3, 0]}, par: {x: [-70, 70], y: [10, -10]}, fx: ['embers', 'fog']},
+  {t0: 6.57, t1: 13.22, src: 'k2.png', kb: {s: [1.08, 1.18], x: [2, -2], y: [0, 2]}, par: {x: [70, -70], y: [0, 0]}, fx: ['fire', 'embers']},
+  {t0: 13.22, t1: 16.89, src: 'king.mp4', video: true, rate: 0.756, fx: ['flash', 'embers'], grade: 'contrast(1.05) saturate(1.08)'},
+  {t0: 16.89, t1: 22.65, src: 'k3.png', kb: {s: [1.35, 1.6], x: [-8, -10], y: [16, 22]}, par: {x: [-40, 40], y: [20, -20]}, fx: ['fire', 'embers'], grade: 'saturate(1.15) contrast(1.08)'},
+  {t0: 22.65, t1: 28.56, src: 'k4.png', kb: {s: [1.08, 1.2], x: [0, 3], y: [0, -3]}, par: {x: [-80, 80], y: [0, 0]}, fx: ['lamp', 'dust']},
+  {t0: 28.56, t1: 32.51, src: 'k4.png', kb: {s: [1.45, 1.6], x: [-6, -8], y: [4, 6]}, par: {x: [50, -50], y: [10, -10]}, fx: ['lamp', 'dust'], grade: 'contrast(1.06)'},
+  {t0: 32.51, t1: 35.83, src: 'eyes.mp4', video: true, rate: 0.829, fx: ['lamp']},
+  {t0: 35.83, t1: 39.62, src: 'k1.png', kb: {s: [1.7, 1.2], x: [28, 6], y: [30, -4]}, par: {x: [0, 0], y: [80, -60]}, fx: ['fog', 'dust']},
+  {t0: 39.62, t1: 43.39, src: 'alley.mp4', video: true, fx: ['fog', 'dust'], grade: 'contrast(1.06)'},
+  {t0: 43.39, t1: 47.14, src: 'k6.png', kb: {s: [1.08, 1.22], x: [0, -3], y: [0, 2]}, par: {x: [60, -60], y: [0, 0]}, fx: ['fog', 'dust']},
+  {t0: 47.14, t1: 51.2, src: 'k7.png', kb: {s: [1.25, 1.08], x: [-8, 0], y: [-6, 0]}, par: {x: [-90, 90], y: [20, -20]}, fx: ['fog', 'dust']},
+  {t0: 51.2, t1: 54.39, src: 'k7.png', kb: {s: [1.5, 1.7], x: [6, 10], y: [-4, -8]}, par: {x: [40, -40], y: [-10, 10]}, fx: ['fog', 'dust']},
+  {t0: 54.39, t1: 60.85, src: 'k8.png', kb: {s: [1.08, 1.22], x: [0, -4], y: [0, 2]}, par: {x: [70, -70], y: [0, 0]}, fx: ['rays', 'dust']},
 ];
-const TITLE_AT = 39.94;
-export const TOTAL = 45.2;
+const TITLE_AT = 60.85;
+export const TOTAL = 66.1;
 
 const LINES: [number, number, string][] = [
-  [0.04, 1.53, 'في مدينةٍ قديمة...'],
-  [2.06, 3.71, 'نَسِيَ الناسُ خالِقَهم'],
-  [4.29, 6.2, 'والناس كانت بتسجد لأصنام من حجر...'],
-  [6.34, 7.61, 'حجر يا صاحبي!'],
-  [7.87, 8.54, 'والملك؟'],
-  [8.78, 10.01, 'ده كان جبّار بصحيح'],
-  [10.33, 13.11, 'واللي يخالف دينه... يا يرجع، يا يموت'],
-  [13.69, 16.41, 'بس وسط الضلمة دي كلها... كان فيه شوية شباب'],
-  [16.63, 17.84, 'رفضوا يسجدوا لغير الله'],
-  [18.19, 18.73, 'خالص.'],
-  [19.09, 20.4, 'اتقابلوا في السر'],
-  [20.51, 22.45, 'وقالوا: إحنا مش هنعبد غير الله'],
-  [22.64, 23.78, 'ربّ السما والأرض'],
-  [24.45, 25.24, 'وفي نص الليل...'],
-  [25.55, 26.43, 'خرجوا من المدينة'],
-  [26.57, 28.32, 'مش شايلين معاهم غير إيمانهم'],
-  [28.76, 29.46, 'ومعاهم كلبهم...'],
-  [29.84, 30.73, 'أيوه، كلبهم.'],
-  [30.92, 32.77, 'لحد ما وصلوا كهف في الجبل'],
-  [32.92, 34.03, 'واستخبّوا جوّاه'],
-  [34.91, 35.66, 'ثُمَّ حَدَثَ...'],
-  [35.95, 38.15, 'ما لم يتوقّعْهُ أحد'],
+  [0.17, 1.99, 'في مدينةٍ قديمة...'],
+  [2.73, 4.87, 'نَسِيَ الناسُ خالِقَهم'],
+  [5.81, 8.49, 'كانوا يسجدون لأصنامٍ من حجر...'],
+  [9.17, 11.53, 'حجرٍ لا يسمعُ، ولا يرى'],
+  [12.52, 15.44, 'والملكُ كان جبّارًا طاغية'],
+  [15.92, 17.4, 'مَن خالفَ دينَه،'],
+  [17.64, 21.0, 'فإمّا أن يرجع، وإمّا أن يموت'],
+  [21.88, 25.25, 'لكن، وسطَ هذا الظلامِ كلِّه'],
+  [25.74, 27.45, 'كان هناك فتيةٌ'],
+  [27.56, 29.73, 'رفضوا أن يسجدوا لغير الله'],
+  [30.18, 30.88, 'أبدًا.'],
+  [31.82, 33.69, 'التقَوا سرًّا، وقالوا:'],
+  [34.1, 37.9, 'لن نعبدَ إلا اللهَ، ربَّ السماواتِ والأرض'],
+  [38.87, 40.37, 'وفي منتصفِ الليل،'],
+  [40.67, 42.03, 'خرجوا من المدينة'],
+  [42.76, 45.95, 'لا يحملون معهم إلا إيمانَهم'],
+  [46.27, 47.61, 'ومعهم كلبُهم...'],
+  [48.14, 49.52, 'نعم، كلبُهم.'],
+  [50.2, 52.88, 'حتى وصلوا إلى كهفٍ في الجبل'],
+  [53.28, 54.66, 'واختبؤوا بداخلِه'],
+  [55.64, 56.61, 'ثُمَّ حَدَثَ...'],
+  [57.15, 59.06, 'ما لم يتوقّعْهُ أحد'],
 ];
 
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
@@ -186,7 +188,7 @@ const ShotView: React.FC<{s: Shot}> = ({s}) => {
   return (
     <AbsoluteFill style={{opacity: s.t0 === 0 ? 1 : fade}}>
       <AbsoluteFill style={{transform: `translate(${x}%, ${y}%) scale(${sc})`, filter: s.grade}}>
-        {s.video ? <OffthreadVideo src={staticFile(s.src)} muted style={media} />
+        {s.video ? <OffthreadVideo src={staticFile(s.src)} muted playbackRate={s.rate ?? 1} style={media} />
           : s.par ? <ParallaxStill src={s.src} depth={'d_' + s.src} dx={s.par.x[0] + (s.par.x[1] - s.par.x[0]) * p} dy={s.par.y[0] + (s.par.y[1] - s.par.y[0]) * p} />
           : <Img src={staticFile(s.src)} style={media} />}
       </AbsoluteFill>
@@ -263,7 +265,7 @@ const Title: React.FC = () => {
 
 export const Main: React.FC = () => {
   const {durationInFrames} = useVideoConfig();
-  const narrEnd = (NARR_AT + 38.59) * FPS;
+  const narrEnd = (NARR_AT + 59.50) * FPS;
   return (
     <AbsoluteFill style={{background: '#000'}}>
       {SHOTS.map((s, i) => {
