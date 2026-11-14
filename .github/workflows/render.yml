@@ -34,7 +34,7 @@ jobs:
           I: ${{ matrix.i }}
           K: ${{ inputs.shards }}
         run: |
-          N=$(( (495 * 30 + 9) / 10 ))
+          N=1477
           RANGE=$(python3 -c "import os;n=$N;k=min(int(os.environ['K']),20);i=int(os.environ['I']);a=n*i//k;b=n*(i+1)//k-1;print(f'{a}-{b}')")
           echo "frames $RANGE of $N"
           npx remotion render src/index.ts Main "out/chunk_$(printf %02d $I).mp4" --frames="$RANGE" --muted \
